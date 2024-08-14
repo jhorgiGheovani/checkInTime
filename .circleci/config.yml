@@ -11,6 +11,7 @@ jobs:
       resource-class: medium
 
     steps:
+      - checkout
 
       - flutter/install_sdk_and_pub:
           version: 3.19.6
