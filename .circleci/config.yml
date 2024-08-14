@@ -1,0 +1,27 @@
+version: 2.1
+
+orbs:
+  android: circleci/android@1.0.3
+  flutter: circleci/flutter@2.0.2
+
+jobs:
+  build:
+    executor:
+      name: android/android-machine
+
+    steps:
+      - flutter/install_sdk_and_pub:
+          version: 3.19.6
+      - flutter/install_android_gradle_dependencies
+      - flutter/install_android_gem      
+
+      - run:
+          name: Run unit tests
+          command: flutter test
+
+      - run:
+          name: Build APK
+          command: flutter build apk
+
+      - store_artifacts:
+          path: build/app/outputs/flutter-apk/app-release.apk
