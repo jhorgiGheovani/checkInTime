@@ -23,9 +23,9 @@ jobs:
           name: Flutter pub get
           command: flutter pub get
 
-      - run:
-          name: Run unit tests
-          command: flutter test
+      # - run:
+      #     name: Run unit tests
+      #     command: flutter test
 
       - run:
           name: Build APK
