@@ -67,7 +67,9 @@ jobs:
             curl -sL firebase.tools | bash
       - run:
           name: 'Check Bundler Version'
-          command: bundle --version
+          command: |
+            cd android && \
+            bundle --version
 
       - run:
           name: 'Deploy alpha build to Firebase'
