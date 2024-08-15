@@ -43,11 +43,7 @@ jobs:
       - run: ruby --version
       - run:
           name: 'Configure build'
-          command: |
-            cd android && \
-            bundle update fastlane && \
-            gem install bundler && \
-            bundle install
+          command: cd android && bundle update fastlane && gem install bundler && bundle install
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
