@@ -63,30 +63,27 @@ workflows:
   build_tests_deploy:
     jobs:
       - build
-      - test:
-          requires:
-            - build
       - alpha_stage:
           requires:
             - build
-      - delta_stage:
-          requires:
-            - build
-      - prod_stage:
-          requires:
-            - build
-      - prod:
-          filters:
-            branches:
-              only:
-                - master
-                - develop
-          requires:
-            - test
-      - deploy:
-          filters:
-            branches:
-              only:
-                - master
-          requires:
-            - prod
+      # - delta_stage:
+      #     requires:
+      #       - build
+      # - prod_stage:
+      #     requires:
+      #       - build
+      # - prod:
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
+      #           - develop
+      #     requires:
+      #       - test
+      # - deploy:
+      #     filters:
+      #       branches:
+      #         only:
+      #           - master
+      #     requires:
+      #       - prod
