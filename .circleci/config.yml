@@ -56,6 +56,7 @@ jobs:
           name: 'Install Bundler and Dependencies'
           command: |
             gem install bundler && \
+            cd android && \
             bundle install
 
       - run:
@@ -74,6 +75,8 @@ jobs:
       - run:
           name: 'Deploy alpha build to Firebase'
           command: |
+            cd android && \
+            bundle install \
             bundle exec fastlane stage \
             flavor:alpha branch:${CIRCLE_BRANCH} \
             app_id:$FIREBASE_APP_ID_ALPHA \
