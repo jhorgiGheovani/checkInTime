@@ -23,16 +23,16 @@ jobs:
           name: Flutter pub get
           command: flutter pub get
 
-      # - run:
-      #     name: Run unit tests
-      #     command: flutter test
+  # - run:
+  #     name: Run unit tests
+  #     command: flutter test
 
-      - run:
-          name: Build APK
-          command: flutter build apk
+  # - run:
+  #     name: Build APK
+  #     command: flutter build apk
 
-      - store_artifacts:
-          path: build/app/outputs/flutter-apk/app-release.apk
+  # - store_artifacts:
+  #     path: build/app/outputs/flutter-apk/app-release.apk
 
   alpha_stage:
     docker: # or machine, macos, or a custom executor
@@ -40,18 +40,6 @@ jobs:
 
     steps:
       - checkout
-
-      - run: ruby --version
-
-      # - run:
-      #     name: 'Install Bundler'
-      #     command: gem install bundler
-
-      # - run:
-      #     name: 'Install Bundle Dependencies'
-      #     command: |
-      #       cd android && \
-      #       bundle install
       - run:
           name: 'Install Bundler and Dependencies'
           command: |
@@ -90,24 +78,3 @@ workflows:
       - alpha_stage:
           requires:
             - build
-      # - delta_stage:
-      #     requires:
-      #       - build
-      # - prod_stage:
-      #     requires:
-      #       - build
-      # - prod:
-      #     filters:
-      #       branches:
-      #         only:
-      #           - master
-      #           - develop
-      #     requires:
-      #       - test
-      # - deploy:
-      #     filters:
-      #       branches:
-      #         only:
-      #           - master
-      #     requires:
-      #       - prod
