@@ -5,17 +5,7 @@
     
     
       
-      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.0028874">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="1: assembleRelease" time="6.1457693">
-        
-      </testcase>
-    
-      
-      <testcase classname="fastlane.lanes" name="2: firebase_app_distribution" time="84.5835056">
+      <testcase classname="fastlane.lanes" name="0: default_platform" time="0.0029445">
         
       </testcase>
     
