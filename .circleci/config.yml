@@ -43,13 +43,19 @@ jobs:
 
       - run: ruby --version
 
-      - run:
-          name: 'Install Bundler'
-          command: gem install bundler
+      # - run:
+      #     name: 'Install Bundler'
+      #     command: gem install bundler
 
+      # - run:
+      #     name: 'Install Bundle Dependencies'
+      #     command: |
+      #       cd android && \
+      #       bundle install
       - run:
-          name: 'Install Bundle Dependencies'
+          name: 'Install Bundler and Dependencies'
           command: |
+            gem install bundler && \
             cd android && \
             bundle install
 
@@ -65,11 +71,6 @@ jobs:
           name: 'Install Firebase CLI'
           command: |
             curl -sL firebase.tools | bash
-      - run:
-          name: 'Check Bundler Version'
-          command: |
-            cd android && \
-            bundle --version
 
       - run:
           name: 'Deploy alpha build to Firebase'
