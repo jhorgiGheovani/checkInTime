@@ -35,20 +35,25 @@ jobs:
           path: build/app/outputs/flutter-apk/app-release.apk
 
   alpha_stage:
-    steps:
-      - checkout
-      - run:
-          command: bundle update fastlane && gem install bundler && bundle install
-          name: configure build
-      - restore_cache:
-      - run:
-          name: 'Install Firebase CLI'
-          command: |
-            curl -sL firebase.tools | bash
-      - run:
-          name: 'Deploy alpha build to Firebase'
-          command: |
-            bundle exec fastlane stage 
-            flavor:alpha branch:${CIRCLE_BRANCH} 
-            app_id:$FIREBASE_APP_ID_ALPHA 
-            firebase_token:$FIREBASE_TOKEN
+  docker: # or machine, macos, or a custom executor
+    - image: circleci/ruby:2.7
+
+  steps:
+    - checkout
+    - run:
+        name: 'Configure build'
+        command: bundle update fastlane && gem install bundler && bundle install
+    - restore_cache:
+        keys:
+          - v1-dependencies-{{ checksum "Gemfile.lock" }}
+    - run:
+        name: 'Install Firebase CLI'
+        command: |
+          curl -sL firebase.tools | bash
+    - run:
+        name: 'Deploy alpha build to Firebase'
+        command: |
+          bundle exec fastlane stage \
+          flavor:alpha branch:${CIRCLE_BRANCH} \
+          app_id:$FIREBASE_APP_ID_ALPHA \
+          firebase_token:$FIREBASE_TOKEN
