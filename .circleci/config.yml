@@ -5,6 +5,7 @@ orbs:
   flutter: circleci/flutter@2.0.2
 
 jobs:
+  # Uncomment the build job if you need it
   # build:
   #   executor:
   #     name: android/android-machine
@@ -57,35 +58,36 @@ jobs:
             flavor:alpha branch:${CIRCLE_BRANCH} \
             app_id:$FIREBASE_APP_ID_ALPHA \
             firebase_token:$FIREBASE_TOKEN
+
 workflows:
   version: 2
   build_tests_deploy:
     jobs:
-       - build
-       - test:
-            requires:
-               - build
-       - alpha_stage:
-            requires:
-               - build
-       - delta_stage:
-            requires:
-               - build
-       - prod_stage:
-            requires:
-               - build
-       - prod:
-            filters:
-             branches:
-                only:
-                   - master
-                   - develop
-            requires:
-               - test
+      - build
+      - test:
+          requires:
+            - build
+      - alpha_stage:
+          requires:
+            - build
+      - delta_stage:
+          requires:
+            - build
+      - prod_stage:
+          requires:
+            - build
+      - prod:
+          filters:
+            branches:
+              only:
+                - master
+                - develop
+          requires:
+            - test
       - deploy:
-            filters:
-             branches:
-                only:
-                   - master
-            requires:
-               - prod
+          filters:
+            branches:
+              only:
+                - master
+          requires:
+            - prod
