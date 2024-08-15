@@ -42,7 +42,11 @@ jobs:
       - checkout
       - run:
           name: 'Configure build'
-          command: bundle update fastlane && gem install bundler && bundle install
+          command: |
+            cd path/to/your/Gemfile/directory && \
+            bundle update fastlane && \
+            gem install bundler && \
+            bundle install
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
