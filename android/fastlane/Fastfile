@@ -36,18 +36,18 @@ platform :android do
   #   upload_to_play_store
   # end
 
-  desc "Prepare Android Release Build"
-  lane :build_release_android do
-    gradle(task: "assembleRelease")
-  end
+  # desc "Prepare Android Release Build"
+  # lane :build_release_android do
+  #   gradle(task: "assembleRelease")
+  # end
   
   lane :publish_to_firebase do |options|
-    build_release_android
+    gradle(task: "assemble#{options[:flavor].capitalize}Release")
     build_notes = "Environment: #{options[:flavor].capitalize}. Branch: #{options[:branch]}. Notes: #{options[:notes]}. Built by #{options[:author]}"
     firebase_app_distribution(
        app: "#{options[:app_id]}",
        release_notes: build_notes,
-       android_artifact_path: "../build/app/outputs/flutter-apk/app-release.apk",
+       apk_path: "app/build/outputs/apk/#{options[:flavor].downcase}/release/app-#{options[:flavor].downcase}-release.apk",
        firebase_cli_token: "#{options[:firebase_token]}"
     )
   end
