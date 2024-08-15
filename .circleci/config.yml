@@ -2,7 +2,6 @@ version: 2.1
 
 orbs:
   android: circleci/android@1.0.3
-  gradle: circleci/gradle@3.0.0
   flutter: circleci/flutter@2.0.2
 
 jobs:
@@ -28,12 +27,12 @@ jobs:
   #     name: Run unit tests
   #     command: flutter test
 
-  # - run:
-  #     name: Build APK
-  #     command: flutter build apk
+  - run:
+      name: Build APK
+      command: flutter build apk
 
-  # - store_artifacts:
-  #     path: build/app/outputs/flutter-apk/app-release.apk
+  - store_artifacts:
+      path: build/app/outputs/flutter-apk/app-release.apk
 
   alpha_stage:
     docker: # or machine, macos, or a custom executor
@@ -60,10 +59,6 @@ jobs:
           name: 'Install Firebase CLI'
           command: |
             curl -sL firebase.tools | bash
-
-      - run:
-          name: Gradle Build
-          command: ./gradlew build
 
       - run:
           name: 'Deploy alpha build to Firebase'
