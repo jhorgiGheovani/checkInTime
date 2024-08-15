@@ -42,7 +42,7 @@ platform :android do
   # end
   
   lane :publish_to_firebase do |options|
-    gradle(task: "assemble#{options[:flavor].capitalize}Release")
+    # gradle(task: "assembleStageRelease")
     build_notes = "Environment: #{options[:flavor].capitalize}. Branch: #{options[:branch]}. Notes: #{options[:notes]}. Built by #{options[:author]}"
     firebase_app_distribution(
        app: "#{options[:app_id]}",
