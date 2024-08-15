@@ -5,7 +5,10 @@ platform :android do
   
   lane :publish_to_firebase do |options|
     build_notes = "Environment: #{options[:flavor].capitalize}. Branch: #{options[:branch]}. Notes: #{options[:notes]}. Built by #{options[:author]}"
-    gradle(task: "assembleRelease")
+    gradle(
+      task: "assembleRelease",
+      project_dir: "../"  # Adjust path to where your gradlew is located if needed
+    )
     firebase_app_distribution(
        app: "#{options[:app_id]}",
        groups: "name-of-your-test-group",
