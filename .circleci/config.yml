@@ -58,7 +58,7 @@ jobs:
             bundle update fastlane
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-{{ checksum "android/Gemfile.lock" }}
       - run:
           name: 'Install Firebase CLI'
           command: |
@@ -66,7 +66,7 @@ jobs:
       - run:
           name: 'Deploy alpha build to Firebase'
           command: |
-            bundle exec fastlane stage \
+            cd android && \ bundle exec fastlane stage \
             flavor:alpha branch:${CIRCLE_BRANCH} \
             app_id:$FIREBASE_APP_ID_ALPHA \
             firebase_token:$FIREBASE_TOKEN
