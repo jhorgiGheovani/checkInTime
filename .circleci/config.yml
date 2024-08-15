@@ -5,34 +5,34 @@ orbs:
   flutter: circleci/flutter@2.0.2
 
 jobs:
-  build:
-    executor:
-      name: android/android-machine
-      resource-class: medium
+  # build:
+  #   executor:
+  #     name: android/android-machine
+  #     resource-class: medium
 
-    steps:
-      - checkout
+  #   steps:
+  #     - checkout
 
-      - flutter/install_sdk_and_pub:
-          version: 3.24.0
+  #     - flutter/install_sdk_and_pub:
+  #         version: 3.24.0
 
-      - flutter/install_pub:
-          cache-version: v1
+  #     - flutter/install_pub:
+  #         cache-version: v1
 
-      - run:
-          name: Flutter pub get
-          command: flutter pub get
+  #     - run:
+  #         name: Flutter pub get
+  #         command: flutter pub get
 
-      # - run:
-      #     name: Run unit tests
-      #     command: flutter test
+  #     # - run:
+  #     #     name: Run unit tests
+  #     #     command: flutter test
 
-      - run:
-          name: Build APK
-          command: flutter build apk
+  #     - run:
+  #         name: Build APK
+  #         command: flutter build apk
 
-      - store_artifacts:
-          path: build/app/outputs/flutter-apk/app-release.apk
+  #     - store_artifacts:
+  #         path: build/app/outputs/flutter-apk/app-release.apk
 
   alpha_stage:
     docker: # or machine, macos, or a custom executor
