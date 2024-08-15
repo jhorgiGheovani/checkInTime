@@ -62,15 +62,15 @@ platform :android do
   #   end
   # end
   
-  lane :publish_to_firebase do |options|
+  lane :publish_to_firebase do
     gradle(task: "assembleRelease")
     # build_notes = "Environment: #{options[:flavor].capitalize}. Branch: #{options[:branch]}. Notes: #{options[:notes]}. Built by #{options[:author]}"
     firebase_app_distribution(
-       app: "#{options[:app_id]}",
+       app: "1:506996247929:android:a1394dad3041e1251af3a8",
        testers: "name-of-your-test-group",
        release_notes: "build_notes",
        android_artifact_path: "../build/app/outputs/flutter-apk/app-release.apk",
-       firebase_cli_token: "#{options[:firebase_token]}"
+       firebase_cli_token: "1//0gPEDCULypQQnCgYIARAAGBASNwF-L9IrWh6san_710ZEPYQ-WWL_tfdW-Y65Fc1R4qUn6ZIS7Kg97yBmvsua6TI5O19iFUSg5f4"
     )
   end
 end
