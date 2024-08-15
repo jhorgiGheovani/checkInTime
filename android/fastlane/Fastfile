@@ -9,7 +9,7 @@ platform :android do
        app: "#{options[:app_id]}",
        groups: "name-of-your-test-group",
        release_notes: build_notes,
-       apk_path: "../build/app/outputs/flutter-apk/app-release.apk",
+       apk_path: "build/app/outputs/flutter-apk/app-release.apk",
        firebase_cli_token: "#{options[:firebase_token]}"
     )
   end
