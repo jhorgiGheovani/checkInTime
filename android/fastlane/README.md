@@ -15,22 +15,6 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 ## Android
 
-### android stage
-
-```sh
-[bundle exec] fastlane android stage
-```
-
-Stage and conditionally upload to Firebase
-
-### android build_release_android
-
-```sh
-[bundle exec] fastlane android build_release_android
-```
-
-Prepare Android Release Build
-
 ### android publish_to_firebase
 
 ```sh
