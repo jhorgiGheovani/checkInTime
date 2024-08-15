@@ -65,7 +65,7 @@ jobs:
           command: |
             cd android && \
             bundle install && \
-            bundle exec fastlane stage \
+            bundle exec fastlane publish_to_firebase \
             flavor:alpha branch:${CIRCLE_BRANCH} \
             app_id:$FIREBASE_APP_ID_ALPHA \
             firebase_token:$FIREBASE_TOKEN
