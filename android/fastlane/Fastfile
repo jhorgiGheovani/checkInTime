@@ -2,31 +2,6 @@
 default_platform(:android)
 
 platform :android do
-  desc "Stage and conditionally upload to Firebase"
-  lane :stage do |options|
-    commit = last_git_commit
-    if options[:branch] != "develop" && commit[:message].downcase.include?("#upload") || options[:branch] == "master"
-      release_type = "Release"
-
-      commit_notes = ""
-      if options[:branch] == "master"
-        commit_notes = "Release candidate. #{commit[:message]}"
-      else
-        commit_notes = commit[:message].sub("#upload ", "")
-      end
-
-      # Upload build to Firebase
-      sign_apk_lane(flavor: options[:flavor].capitalize, type: release_type)
-      publish_to_firebase(
-        flavor: options[:flavor],
-        branch: options[:branch],
-        notes: commit_notes,
-        author: commit[:author],
-        app_id: options[:app_id],
-        firebase_token: options[:firebase_token]
-      )
-    end
-  end
   
   lane :publish_to_firebase do |options|
     build_notes = "Environment: #{options[:flavor].capitalize}. Branch: #{options[:branch]}. Notes: #{options[:notes]}. Built by #{options[:author]}"
