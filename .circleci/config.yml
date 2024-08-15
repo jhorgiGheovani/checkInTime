@@ -36,17 +36,14 @@ jobs:
 
   alpha_stage:
     docker: # or machine, macos, or a custom executor
-      - image: circleci/ruby:2.7
+      - image: cimg/ruby:3.3.4
 
     steps:
       - checkout
+      - run: ruby --version
       - run:
           name: 'Configure build'
-          command: |
-            cd path/to/your/Gemfile/directory && \
-            bundle update fastlane && \
-            gem install bundler && \
-            bundle install
+          command: bundle update fastlane && gem install bundler && bundle install
       - restore_cache:
           keys:
             - v1-dependencies-{{ checksum "Gemfile.lock" }}
