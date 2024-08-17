@@ -55,6 +55,9 @@ jobs:
           name: Make gradlew executable
           command: chmod +x android/gradlew
       - run:
+          name: Build APK
+          command: ./android/gradlew assemble
+      - run:
           name: Install Bundler and Dependencies
           command: |
             gem install bundler && \
