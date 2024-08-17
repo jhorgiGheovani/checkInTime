@@ -35,7 +35,7 @@ jobs:
           command: flutter build apk --release
       - persist_to_workspace:
           root: /tmp
-          paths: /tmp/build/app/outputs/flutter-apk/app-release.apk
+          paths: /tmp/build/app/outputs/flutter-apk
       # - store_artifacts:
       #     path: /tmp/build/app/outputs/flutter-apk/app-release.apk
 
