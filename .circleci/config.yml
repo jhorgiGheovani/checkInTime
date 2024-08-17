@@ -52,10 +52,8 @@ jobs:
       #     name: Download Dependencies
       #     command: cd android; ./gradlew androidDependencies
       - run:
-          name: Check Folder Structure
-          command: |
-            echo "Listing all files and directories:"
-            ls -R
+          name: Print working directory
+          command: pwd
       - run:
           name: Install Bundler and Dependencies
           command: |
