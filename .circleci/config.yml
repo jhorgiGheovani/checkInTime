@@ -52,8 +52,10 @@ jobs:
       #     name: Download Dependencies
       #     command: cd android; ./gradlew androidDependencies
       - run:
-          name: Check Gradle Version
-          command: ./gradlew --version
+          name: Check Folder Structure
+          command: |
+            echo "Listing all files and directories:"
+            ls -R
       - run:
           name: Install Bundler and Dependencies
           command: |
