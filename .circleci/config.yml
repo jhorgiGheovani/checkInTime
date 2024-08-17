@@ -45,12 +45,12 @@ jobs:
     executor: my-executor
     steps:
       - checkout
-      - run:
-          name: Chmod permissions
-          command: sudo chmod +x ./gradlew
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
+      # - run:
+      #     name: Chmod permissions
+      #     command: sudo chmod +x ./gradlew
+      # - run:
+      #     name: Download Dependencies
+      #     command: ./gradlew androidDependencies
       - run:
           name: Print working directory
           command: pwd
