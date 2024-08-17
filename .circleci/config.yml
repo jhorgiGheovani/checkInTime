@@ -4,7 +4,14 @@ orbs:
   android: circleci/android@1.0.3
   flutter: circleci/flutter@2.0.2
 
+executors:
+  my-executor:
+    docker:
+      - image: cimg/ruby:3.3.4
+    working_directory: /tmp
+
 jobs:
+  # job 1
   build:
     executor:
       name: android/android-machine
@@ -26,16 +33,19 @@ jobs:
       - run:
           name: Build APK
           command: flutter build apk --release
+      - persist_to_workspace:
+          root: /tmp
+          paths: /tmp/build/app/outputs/flutter-apk/app-release.apk
+      # - store_artifacts:
+      #     path: /tmp/build/app/outputs/flutter-apk/app-release.apk
 
-      - store_artifacts:
-          path: build/app/outputs/flutter-apk/app-release.apk
-
+  # job 2
   alpha_stage:
-    docker:
-      - image: cimg/ruby:3.3.4
-
+    executor: my-executor
     steps:
       - checkout
+      - attach_workspace:
+          at: /tmp
       - run:
           name: Install Bundler and Dependencies
           command: |
