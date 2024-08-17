@@ -51,7 +51,7 @@ jobs:
       - run:
           name: Install Bundler and Dependencies
           command: |
-            gem install bundler -v 2.3.0 && \
+            gem install bundler -v 2.3.27 && \
             cd android && \
             bundle install
       - run:
