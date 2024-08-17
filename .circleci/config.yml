@@ -8,38 +8,10 @@ orbs:
 executors:
   my-executor:
     docker:
-      - image: cimg/android:2023.03-browsers
+      # - image: cimg/android:2023.03-browsers
       - image: cimg/ruby:3.3.4
 
 jobs:
-  # job 1
-  # build:
-  #   executor:
-  #     name: android/android-machine
-  #     resource-class: medium
-
-  #   steps:
-  #     - checkout
-
-  #     - flutter/install_sdk_and_pub:
-  #         version: 3.24.0
-
-  #     - flutter/install_pub:
-  #         cache-version: v1
-
-  #     - run:
-  #         name: Flutter pub get
-  #         command: flutter pub get
-
-  # - run:
-  #     name: Build APK
-  #     command: flutter build apk --release
-  # - persist_to_workspace:
-  #     root: /tmp
-  #     paths: /tmp/build/app/outputs/flutter-apk
-  # - store_artifacts:
-  #     path: /tmp/build/app/outputs/flutter-apk/app-release.apk
-
   # job 2
   alpha_stage:
     executor: my-executor
@@ -51,9 +23,9 @@ jobs:
       - run:
           name: List files in project directory
           command: ls -R
-      - run:
-          name: Make gradlew executable
-          command: chmod +x android/gradlew
+      # - run:
+      #     name: Make gradlew executable
+      #     command: chmod +x android/gradlew
       - run:
           name: Install Bundler and Dependencies
           command: |
@@ -89,3 +61,31 @@ workflows:
       # - alpha_stage:
       #     requires:
       #       - build
+
+  # job 1
+  # build:
+  #   executor:
+  #     name: android/android-machine
+  #     resource-class: medium
+
+  #   steps:
+  #     - checkout
+
+  #     - flutter/install_sdk_and_pub:
+  #         version: 3.24.0
+
+  #     - flutter/install_pub:
+  #         cache-version: v1
+
+  #     - run:
+  #         name: Flutter pub get
+  #         command: flutter pub get
+
+  # - run:
+  #     name: Build APK
+  #     command: flutter build apk --release
+  # - persist_to_workspace:
+  #     root: /tmp
+  #     paths: /tmp/build/app/outputs/flutter-apk
+  # - store_artifacts:
+  #     path: /tmp/build/app/outputs/flutter-apk/app-release.apk
