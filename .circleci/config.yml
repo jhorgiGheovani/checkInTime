@@ -48,15 +48,15 @@ jobs:
       - checkout
       # - attach_workspace:
       #     at: /home/circleci/project
-      - run:
-          name: Print working directory
-          command: pwd
-      - run:
-          name: List files in project directory
-          command: ls -R
-      - run:
-          name: Make gradlew executable
-          command: chmod +x android/gradlew
+      # - run:
+      #     name: Print working directory
+      #     command: pwd
+      # - run:
+      #     name: List files in project directory
+      #     command: ls -R
+      # - run:
+      #     name: Make gradlew executable
+      #     command: chmod +x android/gradlew
       - run:
           name: Install Bundler and Dependencies
           command: |

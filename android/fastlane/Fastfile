@@ -4,7 +4,13 @@ default_platform(:android)
 platform :android do
   
   lane :build_apk do
-    gradle(task: 'assemble')
+    # Navigate to the Flutter project directory
+    Dir.chdir("..") do
+      # Build the APK using the flutter command
+      sh("flutter build apk --release")
+    end
+    # Optionally, move the APK to a specific location
+    sh("mv build/app/outputs/flutter-apk/app-release.apk")
   end
 
   lane :publish_to_firebase do
