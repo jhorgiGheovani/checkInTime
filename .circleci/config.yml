@@ -81,7 +81,7 @@ jobs:
           name: Deploy alpha build to Firebase
           command: |
             cd android && 
-            fastlane publish_to_firebase
+            bundle exec fastlane publish_to_firebase
 
 workflows:
   version: 2
@@ -118,4 +118,4 @@ workflows:
   #     root: /tmp
   #     paths: /tmp/build/app/outputs/flutter-apk
   # - store_artifacts:
-  #     path: /tmp/build/app/outputs/flutter-apk/app-release.apk
+  #     path:  build/app/outputs/flutter-apk/app-release.apk
