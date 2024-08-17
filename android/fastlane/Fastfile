@@ -4,7 +4,6 @@ default_platform(:android)
 platform :android do
   
   lane :build_apk do
-    # Use flutter command to build the APK
     gradle(task: 'assemble',)
   end
 

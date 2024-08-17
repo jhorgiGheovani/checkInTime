@@ -44,12 +44,12 @@ jobs:
     executor: my-executor
     steps:
       - checkout
-      - run:
-          name: Chmod permissions
-          command: sudo chmod +x ./gradlew
-      - run:
-          name: Download Dependencies
-          command: cd android; ./gradlew androidDependencies
+      # - run:
+      #     name: Chmod permissions
+      #     command: sudo chmod +x ./gradlew
+      # - run:
+      #     name: Download Dependencies
+      #     command: cd android; ./gradlew androidDependencies
       - run:
           name: Install Bundler and Dependencies
           command: |
