@@ -3,12 +3,12 @@ default_platform(:android)
 
 platform :android do
   
-  # lane :build_apk do
-  #   gradle(task: 'assemble')
-  # end
+  lane :build_apk do
+    gradle(task: 'assemble')
+  end
 
   lane :publish_to_firebase do
-    # build_apk
+    build_apk
     firebase_app_distribution(
        app: "1:506996247929:android:a1394dad3041e1251af3a8",
        groups: "name-of-your-test-group",
