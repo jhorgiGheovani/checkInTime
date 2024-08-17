@@ -16,7 +16,7 @@ executors:
 
   andro-fastlane:
     docker:
-      - image: gmemstr/flutter-fastlane-android:29.0
+      - image: gmemstr/flutter-fastlane-android:latest
     environment:
       TERM: dumb
       _JAVA_OPTIONS: '-Xmx2048m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap'
@@ -48,23 +48,6 @@ jobs:
       # - run:
       #     name: Flutter pub get
       #     command: flutter pub get
-      - run:
-          name: Install Dependencies for Ruby Installation
-          command: |
-            sudo apt-get update && sudo apt-get install -y \
-            libssl-dev libreadline-dev zlib1g-dev \
-            autoconf bison build-essential libyaml-dev \
-            libncurses5-dev libffi-dev libgdbm6 libgdbm-dev
-      - run:
-          name: Install rbenv and Ruby 3.0.0
-          command: |
-            git clone https://github.com/rbenv/rbenv.git ~/.rbenv && \
-            echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc && \
-            echo 'eval "$(rbenv init -)"' >> ~/.bashrc && \
-            exec $SHELL && \
-            git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build && \
-            ~/.rbenv/bin/rbenv install 3.0.0 && \
-            ~/.rbenv/bin/rbenv global 3.0.0
       - run:
           name: Install Bundler and Dependencies
           command: |
