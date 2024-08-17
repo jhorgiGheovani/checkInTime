@@ -32,7 +32,7 @@ jobs:
 
   alpha_stage:
     docker:
-      - image: cimg/android:2023.03-browsers
+      - image: cimg/ruby:3.3.4
 
     steps:
       - checkout
@@ -54,9 +54,6 @@ jobs:
           name: Install Firebase CLI
           command: |
             curl -sL firebase.tools | bash
-      - run:
-          name: Download Dependencies
-          command: ./gradlew androidDependencies
       - run:
           name: Deploy alpha build to Firebase
           command: |

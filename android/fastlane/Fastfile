@@ -9,7 +9,7 @@ platform :android do
        app: "1:506996247929:android:a1394dad3041e1251af3a8",
        groups: "name-of-your-test-group",
        release_notes: "testing pertama",
-       android_artifact_path: "../build/app/outputs/flutter-apk/app-release.apk",
+       android_artifact_path: "build/app/outputs/flutter-apk/app-release.apk",
        firebase_cli_token: "1//0gPEDCULypQQnCgYIARAAGBASNwF-L9IrWh6san_710ZEPYQ-WWL_tfdW-Y65Fc1R4qUn6ZIS7Kg97yBmvsua6TI5O19iFUSg5f4"
     )
   end
