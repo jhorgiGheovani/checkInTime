@@ -4,7 +4,7 @@ default_platform(:android)
 platform :android do
   
   lane :build_apk do
-    gradle(task: 'assemble', gradle_path: 'android/gradlew')
+    gradle(task: 'assemble')
   end
 
   lane :publish_to_firebase do
