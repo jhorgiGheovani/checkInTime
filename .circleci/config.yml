@@ -13,32 +13,32 @@ executors:
 
 jobs:
   # job 1
-  build:
-    executor:
-      name: android/android-machine
-      resource-class: medium
+  # build:
+  #   executor:
+  #     name: android/android-machine
+  #     resource-class: medium
 
-    steps:
-      - checkout
+  #   steps:
+  #     - checkout
 
-      - flutter/install_sdk_and_pub:
-          version: 3.24.0
+  #     - flutter/install_sdk_and_pub:
+  #         version: 3.24.0
 
-      - flutter/install_pub:
-          cache-version: v1
+  #     - flutter/install_pub:
+  #         cache-version: v1
 
-      - run:
-          name: Flutter pub get
-          command: flutter pub get
+  #     - run:
+  #         name: Flutter pub get
+  #         command: flutter pub get
 
-      # - run:
-      #     name: Build APK
-      #     command: flutter build apk --release
-      # - persist_to_workspace:
-      #     root: /tmp
-      #     paths: /tmp/build/app/outputs/flutter-apk
-      # - store_artifacts:
-      #     path: /tmp/build/app/outputs/flutter-apk/app-release.apk
+  # - run:
+  #     name: Build APK
+  #     command: flutter build apk --release
+  # - persist_to_workspace:
+  #     root: /tmp
+  #     paths: /tmp/build/app/outputs/flutter-apk
+  # - store_artifacts:
+  #     path: /tmp/build/app/outputs/flutter-apk/app-release.apk
 
   # job 2
   alpha_stage:
@@ -54,38 +54,38 @@ jobs:
       - run:
           name: Print working directory
           command: pwd
-      - run:
-          name: Install Bundler and Dependencies
-          command: |
-            gem install bundler && \
-            cd android && \
-            bundle install
-      - run:
-          name: Update Fastlane
-          command: |
-            cd android && \
-            bundle update fastlane
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "android/Gemfile.lock" }}
-      - run:
-          name: Install Firebase CLI
-          command: |
-            curl -sL firebase.tools | bash
-      - run:
-          name: Deploy alpha build to Firebase
-          command: |
-            cd android && \
-            bundle exec fastlane publish_to_firebase \
-            flavor:alpha branch:${CIRCLE_BRANCH} \
-            app_id:$FIREBASE_APP_ID_ALPHA \
-            firebase_token:$FIREBASE_TOKEN
+      # - run:
+      #     name: Install Bundler and Dependencies
+      #     command: |
+      #       gem install bundler && \
+      #       cd android && \
+      #       bundle install
+      # - run:
+      #     name: Update Fastlane
+      #     command: |
+      #       cd android && \
+      #       bundle update fastlane
+      # - restore_cache:
+      #     keys:
+      #       - v1-dependencies-{{ checksum "android/Gemfile.lock" }}
+      # - run:
+      #     name: Install Firebase CLI
+      #     command: |
+      #       curl -sL firebase.tools | bash
+      # - run:
+      #     name: Deploy alpha build to Firebase
+      #     command: |
+      #       cd android && \
+      #       bundle exec fastlane publish_to_firebase \
+      #       flavor:alpha branch:${CIRCLE_BRANCH} \
+      #       app_id:$FIREBASE_APP_ID_ALPHA \
+      #       firebase_token:$FIREBASE_TOKEN
 
 workflows:
   version: 2
   build_tests_deploy:
     jobs:
-      - build
-      - alpha_stage:
-          requires:
-            - build
+      - alpha_stage
+      # - alpha_stage:
+      #     requires:
+      #       - build
