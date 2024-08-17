@@ -8,7 +8,7 @@ orbs:
 executors:
   my-executor:
     docker:
-      - image: cimg/android:2023.03-browsers
+      # - image: cimg/android:2023.03-browsers
       - image: cimg/ruby:3.3.4
 
 jobs:
@@ -45,44 +45,38 @@ jobs:
     executor: my-executor
     steps:
       - checkout
-      # - run:
-      #     name: Chmod permissions
-      #     command: sudo chmod +x ./gradlew
-      # - run:
-      #     name: Download Dependencies
-      #     command: ./gradlew androidDependencies
       - run:
           name: Print working directory
           command: pwd
       - run:
           name: List files in project directory
           command: ls -R
-      # - run:
-      #     name: Install Bundler and Dependencies
-      #     command: |
-      #       gem install bundler && \
-      #       cd android && \
-      #       bundle install
-      # - run:
-      #     name: Update Fastlane
-      #     command: |
-      #       cd android && \
-      #       bundle update fastlane
-      # - restore_cache:
-      #     keys:
-      #       - v1-dependencies-{{ checksum "android/Gemfile.lock" }}
-      # - run:
-      #     name: Install Firebase CLI
-      #     command: |
-      #       curl -sL firebase.tools | bash
-      # - run:
-      #     name: Deploy alpha build to Firebase
-      #     command: |
-      #       cd android && \
-      #       bundle exec fastlane publish_to_firebase \
-      #       flavor:alpha branch:${CIRCLE_BRANCH} \
-      #       app_id:$FIREBASE_APP_ID_ALPHA \
-      #       firebase_token:$FIREBASE_TOKEN
+      - run:
+          name: Install Bundler and Dependencies
+          command: |
+            gem install bundler && \
+            cd android && \
+            bundle install
+      - run:
+          name: Update Fastlane
+          command: |
+            cd android && \
+            bundle update fastlane
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "android/Gemfile.lock" }}
+      - run:
+          name: Install Firebase CLI
+          command: |
+            curl -sL firebase.tools | bash
+      - run:
+          name: Deploy alpha build to Firebase
+          command: |
+            cd android && \
+            bundle exec fastlane publish_to_firebase \
+            flavor:alpha branch:${CIRCLE_BRANCH} \
+            app_id:$FIREBASE_APP_ID_ALPHA \
+            firebase_token:$FIREBASE_TOKEN
 
 workflows:
   version: 2
