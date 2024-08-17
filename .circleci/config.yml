@@ -35,29 +35,29 @@ jobs:
       # - run:
       #     name: Make gradlew executable
       #     command: chmod +x android/gradlew
-      - flutter/install_sdk_and_pub:
-          version: 3.24.0
+      # - flutter/install_sdk_and_pub:
+      #     version: 3.24.0
 
-      - flutter/install_pub:
-          cache-version: v1
+      # - flutter/install_pub:
+      #     cache-version: v1
 
-      - run:
-          name: Flutter pub get
-          command: flutter pub get
-      - run:
-          name: Install Bundler and Dependencies
-          command: |
-            gem install bundler && \
-            cd android && \
-            bundle install
-      - run:
-          name: Update Fastlane
-          command: |
-            cd android && \
-            bundle update fastlane
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "android/Gemfile.lock" }}
+      # - run:
+      #     name: Flutter pub get
+      #     command: flutter pub get
+      # - run:
+      #     name: Install Bundler and Dependencies
+      #     command: |
+      #       gem install bundler && \
+      #       cd android && \
+      #       bundle install
+      # - run:
+      #     name: Update Fastlane
+      #     command: |
+      #       cd android && \
+      #       bundle update fastlane
+      # - restore_cache:
+      #     keys:
+      #       - v1-dependencies-{{ checksum "android/Gemfile.lock" }}
       - run:
           name: Install Firebase CLI
           command: |
