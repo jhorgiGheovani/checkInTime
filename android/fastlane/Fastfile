@@ -15,7 +15,7 @@ platform :android do
 
   lane :stage do |options|
     commit = last_git_commit
-    if options[:branch] != "develop" and commit[:message].downcase.include? "#upload" or options[:branch] == "master"
+    if options[:branch] != "main" and commit[:message].downcase.include? "#upload" or options[:branch] == "master"
       release_type = "Release"
   
       commit_notes = ""
