@@ -8,7 +8,7 @@ executors:
   my-executor:
     docker:
       - image: cimg/ruby:3.3.4
-    # working_directory: /tmp
+      - image: cimg/android:2023.03-browsers
 
 jobs:
   # job 1
@@ -30,9 +30,9 @@ jobs:
           name: Flutter pub get
           command: flutter pub get
 
-      - run:
-          name: Build APK
-          command: flutter build apk --release
+      # - run:
+      #     name: Build APK
+      #     command: flutter build apk --release
       # - persist_to_workspace:
       #     root: /tmp
       #     paths: /tmp/build/app/outputs/flutter-apk
@@ -44,8 +44,12 @@ jobs:
     executor: my-executor
     steps:
       - checkout
-      # - attach_workspace:
-      #     at: /tmp
+      - run:
+          name: Chmod permissions
+          command: sudo chmod +x ./gradlew
+      - run:
+          name: Download Dependencies
+          command: ./gradlew androidDependencies
       - run:
           name: Install Bundler and Dependencies
           command: |

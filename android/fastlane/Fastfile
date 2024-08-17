@@ -3,12 +3,18 @@ default_platform(:android)
 
 platform :android do
   
+  lane :build_apk do
+    # Use flutter command to build the APK
+    gradle(task: 'assemble',)
+  end
+
   lane :publish_to_firebase do
+    build_apk
     firebase_app_distribution(
        app: "1:506996247929:android:a1394dad3041e1251af3a8",
        groups: "name-of-your-test-group",
        release_notes: "testing pertama",
-       android_artifact_path: "/tmp/build/app/outputs/flutter-apk/app-release.apk",
+       android_artifact_path: "../build/app/outputs/flutter-apk/app-release.apk",
        firebase_cli_token: "1//0gPEDCULypQQnCgYIARAAGBASNwF-L9IrWh6san_710ZEPYQ-WWL_tfdW-Y65Fc1R4qUn6ZIS7Kg97yBmvsua6TI5O19iFUSg5f4"
     )
   end
