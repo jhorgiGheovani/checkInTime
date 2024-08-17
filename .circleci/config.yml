@@ -23,12 +23,12 @@ jobs:
           name: Flutter pub get
           command: flutter pub get
 
-      # - run:
-      #     name: Build APK
-      #     command: flutter build apk
+      - run:
+          name: Build APK
+          command: flutter build apk --release
 
-      # - store_artifacts:
-      #     path: build/app/outputs/flutter-apk/app-release.apk
+      - store_artifacts:
+          path: build/app/outputs/flutter-apk/app-release.apk
 
   alpha_stage:
     docker:
@@ -37,13 +37,13 @@ jobs:
     steps:
       - checkout
       - run:
-          name: 'Install Bundler and Dependencies'
+          name: Install Bundler and Dependencies
           command: |
             gem install bundler && \
             cd android && \
             bundle install
       - run:
-          name: 'Update Fastlane'
+          name: Update Fastlane
           command: |
             cd android && \
             bundle update fastlane
@@ -51,17 +51,16 @@ jobs:
           keys:
             - v1-dependencies-{{ checksum "android/Gemfile.lock" }}
       - run:
-          name: 'Install Firebase CLI'
+          name: Install Firebase CLI
           command: |
             curl -sL firebase.tools | bash
       - run:
           name: Download Dependencies
           command: ./gradlew androidDependencies
       - run:
-          name: 'Deploy alpha build to Firebase'
+          name: Deploy alpha build to Firebase
           command: |
             cd android && \
-            bundle install && \
             bundle exec fastlane publish_to_firebase \
             flavor:alpha branch:${CIRCLE_BRANCH} \
             app_id:$FIREBASE_APP_ID_ALPHA \
