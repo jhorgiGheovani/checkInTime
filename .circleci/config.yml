@@ -7,8 +7,8 @@ orbs:
 executors:
   my-executor:
     docker:
-      - image: cimg/ruby:3.3.4
       - image: cimg/android:2023.03-browsers
+      - image: cimg/ruby:3.3.4
 
 jobs:
   # job 1
@@ -49,7 +49,7 @@ jobs:
           command: sudo chmod +x ./gradlew
       - run:
           name: Download Dependencies
-          command: ./gradlew androidDependencies
+          command: cd android; ./gradlew androidDependencies
       - run:
           name: Install Bundler and Dependencies
           command: |
