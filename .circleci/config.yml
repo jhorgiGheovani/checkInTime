@@ -15,10 +15,48 @@ executors:
       - image: cimg/ruby:3.3.4
 
 jobs:
-  setup_ruby:
+  build:
+    executor:
+      name: android/android-machine
+      resource-class: medium
+
+    steps:
+      - checkout
+      - flutter/install_sdk_and_pub:
+          version: 3.24.0
+
+      - flutter/install_pub:
+          cache-version: v1
+
+      - run:
+          name: Flutter pub get
+          command: flutter pub get
+
+      - run:
+          name: Build APK
+          command: flutter build apk --release
+      - persist_to_workspace:
+          root: /tmp
+          paths: /tmp/build
+      # - store_artifacts:
+      #     path: /tmp/build/app/outputs/flutter-apk/app-release.apk
+
+  # job 2
+  alpha_stage:
     executor: ruby-executor
     steps:
       - checkout
+      - attach_workspace:
+          at: /home/circleci/project
+      - run:
+          name: Print working directory
+          command: pwd
+      - run:
+          name: List files in project directory
+          command: ls -R
+      - run:
+          name: Make gradlew executable
+          command: chmod +x android/gradlew
       - run:
           name: Install Bundler and Dependencies
           command: |
@@ -30,17 +68,9 @@ jobs:
           command: |
             cd android && \
             bundle update fastlane
-      - persist_to_workspace:
-          root: .
-          paths:
-            - .
-
-  deploy_alpha:
-    executor: android-executor
-    steps:
-      - checkout
-      - attach_workspace:
-          at: /home/circleci/project
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "android/Gemfile.lock" }}
       - run:
           name: Install Firebase CLI
           command: |
@@ -58,14 +88,10 @@ workflows:
   version: 2
   build_tests_deploy:
     jobs:
-      - setup_ruby
-      - deploy_alpha:
+      - build
+      - alpha_stage:
           requires:
-            - setup_ruby
-
-      # - alpha_stage:
-      #     requires:
-      #       - build
+            - build
 
   # job 1
   # build:
