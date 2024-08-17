@@ -3,6 +3,7 @@ version: 2.1
 orbs:
   android: circleci/android@1.0.3
   flutter: circleci/flutter@2.0.2
+  gradle: circleci/gradle@3.0.0
 
 executors:
   my-executor:
@@ -50,6 +51,9 @@ jobs:
       # - run:
       #     name: Download Dependencies
       #     command: cd android; ./gradlew androidDependencies
+      - run:
+          name: Check Gradle Version
+          command: ./gradlew --version
       - run:
           name: Install Bundler and Dependencies
           command: |
