@@ -24,29 +24,10 @@ jobs:
     executor: ruby-executor
     steps:
       - checkout
-      # - attach_workspace:
-      #     at: /home/circleci/project
-      # - run:
-      #     name: Print working directory
-      #     command: pwd
-      # - run:
-      #     name: List files in project directory
-      #     command: ls -R
-      # - run:
-      #     name: Make gradlew executable
-      #     command: chmod +x android/gradlew
-      # - flutter/install_sdk_and_pub:
-      #     version: 3.24.0
-
-      # - flutter/install_pub:
-      #     cache-version: v1
-
-      # - run:
-      #     name: Flutter pub get
-      #     command: flutter pub get
       - run:
           name: Install Bundler and Dependencies
           command: |
+            gem update --system && \
             gem install bundler -v 2.3.27 && \
             cd android && \
             bundle install
