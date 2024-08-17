@@ -23,9 +23,9 @@ jobs:
       - run:
           name: List files in project directory
           command: ls -R
-      # - run:
-      #     name: Make gradlew executable
-      #     command: chmod +x android/gradlew
+      - run:
+          name: Make gradlew executable
+          command: chmod +x android/gradlew
       - run:
           name: Install Bundler and Dependencies
           command: |
