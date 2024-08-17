@@ -33,8 +33,12 @@ jobs:
       - flutter/install_sdk_and_pub:
           version: 3.24.0
 
-      - flutter/install_android_gradle
-      - flutter/install_android_gem
+      # - run:
+      #     name: Install Android SDK Components
+      #     command: sdkmanager --install "build-tools;30.0.3" "platforms;android-30"
+      # - run:
+      #     name: Install Ruby Gems
+      #     command: bundle install
       # - attach_workspace:
       #     at: /home/circleci/project
       # - run:
@@ -55,24 +59,24 @@ jobs:
       # - run:
       #     name: Flutter pub get
       #     command: flutter pub get
-      # - run:
-      #     name: Install Bundler and Dependencies
-      #     command: |
-      #       gem install bundler -v 2.3.27 && \
-      #       cd android && \
-      #       bundle install
-      # - run:
-      #     name: Update Fastlane
-      #     command: |
-      #       cd android && \
-      #       bundle update fastlane
-      # - restore_cache:
-      #     keys:
-      #       - v1-dependencies-{{ checksum "android/Gemfile.lock" }}
-      # - run:
-      #     name: Install Firebase CLI
-      #     command: |
-      #       curl -sL firebase.tools | bash
+      - run:
+          name: Install Bundler and Dependencies
+          command: |
+            gem install bundler  && \
+            cd android && \
+            bundle install
+      - run:
+          name: Update Fastlane
+          command: |
+            cd android && \
+            bundle update fastlane
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "android/Gemfile.lock" }}
+      - run:
+          name: Install Firebase CLI
+          command: |
+            curl -sL firebase.tools | bash
       - run:
           name: Deploy alpha build to Firebase
           command: |
