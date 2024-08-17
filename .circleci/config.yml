@@ -12,35 +12,13 @@ executors:
 
   ruby-executor:
     docker:
-      - image: cimg/ruby:3.3.4
+      - image: gmemstr/flutter-fastlane-android:29.0
+    environment:
+      TERM: dumb
+      _JAVA_OPTIONS: '-Xmx2048m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap'
+      GRADLE_OPTS: '-Dorg.gradle.jvmargs="-Xmx2048m"'
 
 jobs:
-  # build:
-  #   executor:
-  #     name: android/android-machine
-  #     resource-class: medium
-
-  #   steps:
-  #     - checkout
-  #     - flutter/install_sdk_and_pub:
-  #         version: 3.24.0
-
-  #     - flutter/install_pub:
-  #         cache-version: v1
-
-  #     - run:
-  #         name: Flutter pub get
-  #         command: flutter pub get
-
-  #     - run:
-  #         name: Build APK
-  #         command: flutter build apk --release
-  #     - persist_to_workspace:
-  #         root: /tmp
-  #         paths: /tmp/build
-  #     # - store_artifacts:
-  #     #     path: /tmp/build/app/outputs/flutter-apk/app-release.apk
-
   # job 2
   alpha_stage:
     executor: ruby-executor
