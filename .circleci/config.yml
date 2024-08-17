@@ -16,7 +16,7 @@ executors:
 
   andro-fastlane:
     docker:
-      - image: gmemstr/flutter-fastlane-android:latest
+      - image: gmemstr/flutter-fastlane-android:29.0
     environment:
       TERM: dumb
       _JAVA_OPTIONS: '-Xmx2048m -XX:+UnlockExperimentalVMOptions -XX:+UseCGroupMemoryLimitForHeap'
@@ -48,32 +48,29 @@ jobs:
       # - run:
       #     name: Flutter pub get
       #     command: flutter pub get
-      - run:
-          name: Install Bundler and Dependencies
-          command: |
-            gem install bundler && \
-            cd android && \
-            bundle install
-      - run:
-          name: Update Fastlane
-          command: |
-            cd android && \
-            bundle update fastlane
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "android/Gemfile.lock" }}
-      - run:
-          name: Install Firebase CLI
-          command: |
-            curl -sL firebase.tools | bash
+      # - run:
+      #     name: Install Bundler and Dependencies
+      #     command: |
+      #       gem install bundler && \
+      #       cd android && \
+      #       bundle install
+      # - run:
+      #     name: Update Fastlane
+      #     command: |
+      #       cd android && \
+      #       bundle update fastlane
+      # - restore_cache:
+      #     keys:
+      #       - v1-dependencies-{{ checksum "android/Gemfile.lock" }}
+      # - run:
+      #     name: Install Firebase CLI
+      #     command: |
+      #       curl -sL firebase.tools | bash
       - run:
           name: Deploy alpha build to Firebase
           command: |
-            cd android && \
-            bundle exec fastlane publish_to_firebase \
-            flavor:alpha branch:${CIRCLE_BRANCH} \
-            app_id:$FIREBASE_APP_ID_ALPHA \
-            firebase_token:$FIREBASE_TOKEN
+            cd android && 
+            fastlane publish_to_firebase
 
 workflows:
   version: 2
