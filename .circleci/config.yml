@@ -57,7 +57,9 @@ jobs:
             curl -sL firebase.tools | bash
       - run:
           name: Install dependencies
-          command: cd android && \ ./gradlew dependencies
+          command: |
+            cd android 
+            ./gradlew dependencies
       - run:
           name: 'Deploy alpha build to Firebase'
           command: |
