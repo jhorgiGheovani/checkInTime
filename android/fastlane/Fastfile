@@ -4,7 +4,6 @@ default_platform(:android)
 platform :android do
   
   lane :publish_to_firebase do
-    gradle(task: "assembleRelease")
     firebase_app_distribution(
        app: "1:506996247929:android:a1394dad3041e1251af3a8",
        groups: "name-of-your-test-group",
