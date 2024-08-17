@@ -51,8 +51,7 @@ jobs:
       - run:
           name: Install Bundler and Dependencies
           command: |
-            gem uninstall bundler && \
-            gem install bundler -v 2.2.28 && \
+            gem install bundler -v 2.3.27 && \
             cd android && \
             bundle install
       - run:
