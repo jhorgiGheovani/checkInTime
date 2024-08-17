@@ -48,24 +48,25 @@ jobs:
       # - run:
       #     name: Flutter pub get
       #     command: flutter pub get
-      # - run:
-      #     name: Install Bundler and Dependencies
-      #     command: |
-      #       gem install bundler && \
-      #       cd android && \
-      #       bundle install
-      # - run:
-      #     name: Update Fastlane
-      #     command: |
-      #       cd android && \
-      #       bundle update fastlane
-      # - restore_cache:
-      #     keys:
-      #       - v1-dependencies-{{ checksum "android/Gemfile.lock" }}
-      # - run:
-      #     name: Install Firebase CLI
-      #     command: |
-      #       curl -sL firebase.tools | bash
+      - run:
+          name: Install Bundler and Dependencies
+          command: |
+            gem uninstall bundler && \
+            gem install bundler -v 2.2.28 && \
+            cd android && \
+            bundle install
+      - run:
+          name: Update Fastlane
+          command: |
+            cd android && \
+            bundle update fastlane
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "android/Gemfile.lock" }}
+      - run:
+          name: Install Firebase CLI
+          command: |
+            curl -sL firebase.tools | bash
       - run:
           name: Deploy alpha build to Firebase
           command: |
