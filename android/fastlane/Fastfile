@@ -13,16 +13,39 @@ platform :android do
     # sh("mv build/app/outputs/flutter-apk/app-release.apk")
   end
 
-  lane :publish_to_firebase do
-    build_apk
-    firebase_app_distribution(
-       app: "1:506996247929:android:a1394dad3041e1251af3a8",
-       groups: "name-of-your-test-group",
-       release_notes: "testing pertama",
-       android_artifact_path: "../build/app/outputs/flutter-apk/app-release.apk",
-       firebase_cli_token: "1//0gPEDCULypQQnCgYIARAAGBASNwF-L9IrWh6san_710ZEPYQ-WWL_tfdW-Y65Fc1R4qUn6ZIS7Kg97yBmvsua6TI5O19iFUSg5f4"
-    )
+  lane :stage do |options|
+    commit = last_git_commit
+    if options[:branch] != "develop" and commit[:message].downcase.include? "#upload" or options[:branch] == "master"
+      release_type = "Release"
+  
+      commit_notes = ""
+      if(options[:branch] == "master")
+        commit_notes = "Release candidate. #{commit[:message]}"
+      else
+        commit_notes = commit[:message].sub("#upload ", "")
+      end
+  
+      # Upload build to Firebase
+      sign_apk_lane(flavor: options[:flavor].capitalize, type: release_type)
+      publish_to_firebase(flavor: options[:flavor], branch: options[:branch], notes: commit_notes, author: commit[:author], app_id: options[:app_id], firebase_token: options[:firebase_token])
+  
+    end
   end
+
+  lane :publish_to_firebase do |options|
+    build_apk
+    build_notes = "Environment: #{options[:flavor].capitalize}. Branch: #{options[:branch]}. Notes: #{options[:notes]}. Built by #{options[:author]}"
+
+    firebase_app_distribution(
+       app: "#{options[:app_id]}",
+       groups: "name-of-your-test-group",
+       release_notes: build_notes,
+       apk_path: "app/build/outputs/apk/#{options[:flavor].downcase}/release/app-#{options[:flavor].downcase}-release.apk",
+       firebase_cli_token: "#{options[:firebase_token]}"
+    )
+end
+
+
 end
 
 
