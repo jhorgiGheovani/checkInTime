@@ -26,7 +26,7 @@ platform :android do
       end
   
       # Upload build to Firebase
-      sign_apk_lane(flavor: options[:flavor].capitalize, type: release_type)
+      # sign_apk_lane(flavor: options[:flavor].capitalize, type: release_type)
       publish_to_firebase(flavor: options[:flavor], branch: options[:branch], notes: commit_notes, author: commit[:author], app_id: options[:app_id], firebase_token: options[:firebase_token])
   
     end
