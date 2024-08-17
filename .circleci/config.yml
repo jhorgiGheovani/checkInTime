@@ -8,7 +8,7 @@ executors:
   my-executor:
     docker:
       - image: cimg/ruby:3.3.4
-    working_directory: /tmp
+    # working_directory: /tmp
 
 jobs:
   # job 1
@@ -33,9 +33,9 @@ jobs:
       - run:
           name: Build APK
           command: flutter build apk --release
-      - persist_to_workspace:
-          root: /tmp
-          paths: /tmp/build/app/outputs/flutter-apk
+      # - persist_to_workspace:
+      #     root: /tmp
+      #     paths: /tmp/build/app/outputs/flutter-apk
       # - store_artifacts:
       #     path: /tmp/build/app/outputs/flutter-apk/app-release.apk
 
@@ -44,8 +44,8 @@ jobs:
     executor: my-executor
     steps:
       - checkout
-      - attach_workspace:
-          at: /tmp
+      # - attach_workspace:
+      #     at: /tmp
       - run:
           name: Install Bundler and Dependencies
           command: |
