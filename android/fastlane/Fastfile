@@ -62,13 +62,13 @@ platform :android do
 
     path = ""
 
-    if(options[:flavor] == "prod"){
+    if options[:flavor] == "prod"
       path = "../build/app/outputs/flutter-apk/app-prod-release.apk"
-    }
+    end
 
-    if(options[:flavor] == "stag"){
+    if options[:flavor] == "stag"
       path = "../build/app/outputs/flutter-apk/app-stag-release.apk"
-    }
+    end
 
     release = firebase_app_distribution(
        app: "#{options[:app_id]}",
