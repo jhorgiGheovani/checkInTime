@@ -11,7 +11,7 @@ platform :android do
 
       build_apk_staging
 
-      deploy(notes: commit_notes, author: commit[:author], app_id: options[:app_id_stag], firebase_token: options[:firebase_token])
+      deploy(flavor: "stag", notes: commit_notes, author: commit[:author], app_id: options[:app_id_stag], firebase_token: options[:firebase_token])
   
     end
 
@@ -23,7 +23,7 @@ platform :android do
 
       build_apk_prod
 
-      deploy(notes: commit_notes, author: commit[:author], app_id: options[:app_id_prod], firebase_token: options[:firebase_token])
+      deploy(flavor: "prod",notes: commit_notes, author: commit[:author], app_id: options[:app_id_prod], firebase_token: options[:firebase_token])
   
     end
 
@@ -60,11 +60,21 @@ platform :android do
   lane :deploy do |options|
     build_notes = "Notes: \n #{options[:notes]}. \n Built by #{options[:author]}"
 
+    path = ""
+
+    if(options[:flavor] == "prod"){
+      path = "../build/app/outputs/flutter-apk/app-prod-release.apk"
+    }
+
+    if(options[:flavor] == "stag"){
+      path = "../build/app/outputs/flutter-apk/app-stag-release.apk"
+    }
+
     release = firebase_app_distribution(
        app: "#{options[:app_id]}",
        testers: "jhorgistuff@gmail.com",
        release_notes: build_notes,
-       android_artifact_path: "../build/app/outputs/flutter-apk/app-release.apk",
+       android_artifact_path: path,
        firebase_cli_token: "#{options[:firebase_token]}"
     )
   end
