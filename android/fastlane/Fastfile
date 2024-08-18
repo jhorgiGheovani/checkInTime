@@ -32,11 +32,43 @@ platform :android do
     end
   end
   lane :increment_version do |options|
+    # Fetch the latest release from Firebase App Distribution
     latest_release = firebase_app_distribution_get_latest_release(
       app: "#{options[:app_id]}"
     )
+  
+    # Increment the version code
     increment_version_code({ version_code: latest_release[:buildVersion].to_i + 1 })
+  
+    # Define the path to your build.gradle file
+    gradle_file_path = "app/build.gradle"
+  
+    # Read the current version name from build.gradle
+    current_version_name = sh("grep 'versionName' #{gradle_file_path}").split(' ').last.tr('"', '')
+  
+    # Split the version name into major, minor, and patch
+    version_parts = current_version_name.split('.').map(&:to_i)
+    major, minor, patch = version_parts
+  
+    # Increment the patch version (you can modify this logic as needed)
+    patch += 1
+  
+    # Generate the new version name
+    new_version_name = "#{major}.#{minor}.#{patch}"
+  
+    # Replace the versionName in build.gradle with the new version
+    sh("sed -i '' 's/versionName \".*\"/versionName \"#{new_version_name}\"/' #{gradle_file_path}")
+  
+    # # Output the new version name
+    # puts "Version name updated to #{new_version_name}"
+  
+    # # Commit the changes (optional)
+    # commit_version_bump(
+    #   message: "Version bump to #{new_version_name}",
+    #   xcodeproj: nil # Only needed for iOS projects, omit for Android
+    # )
   end
+  
 
   lane :publish_to_firebase do |options|
     increment_version(app_id: options[:app_id])
