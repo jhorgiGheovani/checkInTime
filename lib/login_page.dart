@@ -12,7 +12,7 @@ class LoginPage extends StatelessWidget {
     TextEditingController password = TextEditingController();
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Login Page"),
+          title: const Text("Login"),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -47,7 +47,7 @@ class LoginPage extends StatelessWidget {
 Future<void> _loginFunc(
     BuildContext context, String email, String password) async {
   try {
-    print("email => $email , password $password");
+    print("emailf => $email , password $password");
     UserCredential userCredential =
         await FirebaseAuth.instance.signInWithEmailAndPassword(
       email: email,
