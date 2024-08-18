@@ -72,17 +72,14 @@ platform :android do
 
   lane :publish_to_firebase do |options|
     increment_version(app_id: options[:app_id])
-    # increment_version_code(
-    #   gradle_file_path: "app/build.gradle",
-    # )
     build_apk
     build_notes = "Environment: #{options[:flavor].capitalize}. Branch: #{options[:branch]}. Notes: #{options[:notes]}. Built by #{options[:author]}"
 
-    firebase_app_distribution(
+    release = firebase_app_distribution(
        app: "#{options[:app_id]}",
-       groups: "name-of-your-test-group",
+       testers: "jhorgistuff@gmail.com",
        release_notes: build_notes,
-       apk_path: "../build/app/outputs/flutter-apk/app-release.apk",
+       android_artifact_path: "../build/app/outputs/flutter-apk/app-release.apk",
        firebase_cli_token: "#{options[:firebase_token]}"
     )
 end

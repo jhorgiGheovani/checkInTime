@@ -23,6 +23,22 @@ For _fastlane_ installation instructions, see [Installing _fastlane_](https://do
 
 
 
+### android stage
+
+```sh
+[bundle exec] fastlane android stage
+```
+
+
+
+### android increment_version
+
+```sh
+[bundle exec] fastlane android increment_version
+```
+
+
+
 ### android publish_to_firebase
 
 ```sh
