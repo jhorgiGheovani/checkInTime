@@ -71,7 +71,7 @@ workflows:
     jobs:
       # always runs
       - test_and_build
-      # required test_and_build to run succesfull first
-      - deploy    
-            requires:
-              - test_and_build   
+      # requires test_and_build to run successfully first
+      - deploy:
+          requires:
+            - test_and_build
