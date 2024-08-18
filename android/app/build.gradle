@@ -47,7 +47,7 @@ android {
         applicationId "com.checkintime.app"
         minSdk = 23
         targetSdk = 34
-        versionCode = flutterVersionCode.toInteger()
+        versionCode = versionCode 1
         versionName = flutterVersionName
     }
 
