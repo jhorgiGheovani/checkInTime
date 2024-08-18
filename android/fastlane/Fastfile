@@ -33,6 +33,9 @@ platform :android do
   end
 
   lane :publish_to_firebase do |options|
+    increment_version_code(
+      gradle_file_path: "./android/app/build.gradle" # Path to your build.gradle
+    )
     build_apk
     build_notes = "Environment: #{options[:flavor].capitalize}. Branch: #{options[:branch]}. Notes: #{options[:notes]}. Built by #{options[:author]}"
 
