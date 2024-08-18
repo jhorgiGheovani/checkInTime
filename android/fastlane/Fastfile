@@ -7,7 +7,7 @@ platform :android do
 
       commit_notes = commit[:message].sub("#stag ", "")
 
-      # increment_version(app_id: options[:app_id_stag])
+      increment_version(app_id: options[:app_id_stag])
 
       build_apk_staging
 
@@ -50,15 +50,14 @@ platform :android do
     latest_release = firebase_app_distribution_get_latest_release(
       app: "#{options[:app_id]}"
     )
-  
-    # Increment the version code
-    increment_version_code({ version_code: latest_release[:buildVersion].to_i + 1 })
-  
-  
+    unless latest_release.nil? || latest_release[:buildVersion].nil?
+      increment_version_code({ version_code: latest_release[:buildVersion].to_i + 1 })
+    end
+
   end
 
   lane :deploy do |options|
-    build_notes = "Notes: \n #{options[:notes]}. \n Built by #{options[:author]}"
+    build_notes = "Notes: \n #{options[:notes]} \n Built by #{options[:author]}"
 
     path = ""
 
