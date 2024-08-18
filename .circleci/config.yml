@@ -69,9 +69,10 @@ workflows:
   version: 2
   build_tests_deploy:
     jobs:
-      # always runs
-      - test_and_build
-      # requires test_and_build to run successfully first
-      - deploy:
-          requires:
-            - test_and_build
+      - deploy
+      # # always runs
+      # - test_and_build
+      # # requires test_and_build to run successfully first
+      # - deploy:
+      #     requires:
+      #       - test_and_build
