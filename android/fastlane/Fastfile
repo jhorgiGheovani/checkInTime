@@ -31,11 +31,18 @@ platform :android do
   
     end
   end
+  lane :increment_version do |options|
+    latest_release = firebase_app_distribution_get_latest_release(
+      app: "#{options[:app_id]}"
+    )
+    increment_version_code({ version_code: latest_release[:buildVersion].to_i + 1 })
+  end
 
   lane :publish_to_firebase do |options|
-    increment_version_code(
-      gradle_file_path: "app/build.gradle",
-    )
+    increment_version
+    # increment_version_code(
+    #   gradle_file_path: "app/build.gradle",
+    # )
     build_apk
     build_notes = "Environment: #{options[:flavor].capitalize}. Branch: #{options[:branch]}. Notes: #{options[:notes]}. Built by #{options[:author]}"
 
