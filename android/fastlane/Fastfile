@@ -73,7 +73,7 @@ platform :android do
   lane :publish_to_firebase do |options|
     increment_version(app_id: options[:app_id])
     build_apk
-    build_notes = "Environment: #{options[:flavor].capitalize}. Branch: #{options[:branch]}. Notes: #{options[:notes]}. Built by #{options[:author]}"
+    build_notes = "Environment: #{options[:flavor].capitalize}. \n Branch: #{options[:branch]}. \n Notes: #{options[:notes]}. \n Built by #{options[:author]}"
 
     release = firebase_app_distribution(
        app: "#{options[:app_id]}",
