@@ -7,7 +7,7 @@ platform :android do
 
       commit_notes = commit[:message].sub("#stag ", "")
 
-      increment_version(app_id: options[:app_id_stag])
+      # increment_version(app_id: options[:app_id_stag])
 
       build_apk_staging
 
