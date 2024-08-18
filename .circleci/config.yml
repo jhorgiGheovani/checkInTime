@@ -5,8 +5,35 @@ orbs:
   flutter: circleci/flutter@2.0.2
 
 jobs:
-  # job 1
-  alpha_stage:
+  test_and_build:
+    executor:
+      name: android/android-machine
+      resource-class: medium
+
+    steps:
+      - checkout
+      - flutter/install_sdk_and_pub:
+          version: 3.24.0
+
+      - flutter/install_pub:
+          cache-version: v1
+
+      - run:
+          name: Flutter pub get
+          command: flutter pub get
+
+      - run:
+          name: Run unit tests
+          command: flutter test
+
+      - run:
+          name: Build APK
+          command: flutter build apk
+
+      # - store_artifacts:
+      #     path: build/app/outputs/flutter-apk/app-release.apk
+
+  deploy:
     executor:
       name: android/android-machine
       resource-class: medium
@@ -14,33 +41,6 @@ jobs:
       - checkout
       - flutter/install_sdk_and_pub:
           version: 3.24.0
-
-      # - run:
-      #     name: Install Android SDK Components
-      #     command: sdkmanager --install "build-tools;30.0.3" "platforms;android-30"
-      # - run:
-      #     name: Install Ruby Gems
-      #     command: bundle install
-      # - attach_workspace:
-      #     at: /home/circleci/project
-      # - run:
-      #     name: Print working directory
-      #     command: pwd
-      # - run:
-      #     name: List files in project directory
-      #     command: ls -R
-      # - run:
-      #     name: Make gradlew executable
-      #     command: chmod +x android/gradlew
-      # - flutter/install_sdk_and_pub:
-      #     version: 3.24.0
-
-      # - flutter/install_pub:
-      #     cache-version: v1
-
-      # - run:
-      #     name: Flutter pub get
-      #     command: flutter pub get
       - run:
           name: Install Bundler and Dependencies
           command: |
@@ -60,44 +60,18 @@ jobs:
           command: |
             curl -sL firebase.tools | bash
       - run:
-          name: Deploy alpha build to Firebase
+          name: Deploy_to_firebase_app_distributor
           command: |
             cd android && 
-            bundle exec fastlane stage flavor:alpha branch:${CIRCLE_BRANCH} app_id:$FIREBASE_APP_ID_ALPHA firebase_token:$FIREBASE_TOKEN
+            bundle exec fastlane stage app_id_stag:$FIREBASE_APP_ID_STAGING app_id_prod:$FIREBASE_APP_ID_PROD firebase_token:$FIREBASE_TOKEN
 
 workflows:
   version: 2
   build_tests_deploy:
     jobs:
-      - alpha_stage
-      # - alpha_stage:
-      #     requires:
-      #       - build
-
-  # job 1
-  # build:
-  # executor:
-  #   name: android/android-machine
-  #   resource-class: medium
-
-  #   steps:
-  #     - checkout
-
-  #     - flutter/install_sdk_and_pub:
-  #         version: 3.24.0
-
-  #     - flutter/install_pub:
-  #         cache-version: v1
-
-  #     - run:
-  #         name: Flutter pub get
-  #         command: flutter pub get
-
-  # - run:
-  #     name: Build APK
-  #     command: flutter build apk --release
-  # - persist_to_workspace:
-  #     root: /tmp
-  #     paths: /tmp/build/app/outputs/flutter-apk
-  # - store_artifacts:
-  #     path:  build/app/outputs/flutter-apk/app-release.apk
+      # always runs
+      - test_and_build
+      # required test_and_build to run succesfull first
+      - deploy
+            requires:
+               - test_and_build   

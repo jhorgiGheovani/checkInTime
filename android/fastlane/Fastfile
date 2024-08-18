@@ -1,36 +1,50 @@
-
 default_platform(:android)
 
 platform :android do
+  lane :stage do |options|
+    commit = last_git_commit
+    if commit[:message].downcase.include? "#stag"
+
+      commit_notes = commit[:message].sub("#stag ", "")
+
+      increment_version(app_id: options[:app_id_stag])
+
+      build_apk_staging
+
+      deploy(notes: commit_notes, author: commit[:author], app_id: options[:app_id_stag], firebase_token: options[:firebase_token])
   
-  lane :build_apk do
+    end
+
+    if commit[:message].downcase.include? "#prod"
+
+      commit_notes = commit[:message].sub("#prod ", "")
+
+      increment_version(app_id: options[:app_id_prod])
+
+      build_apk_prod
+
+      deploy(notes: commit_notes, author: commit[:author], app_id: options[:app_id_prod], firebase_token: options[:firebase_token])
+  
+    end
+
+  end
+
+  lane :build_apk_prod do
     # Navigate to the Flutter project directory
     Dir.chdir("..") do
       # Build the APK using the flutter command
-      sh("flutter build apk --release")
+      sh("flutter build apk --flavor prod")
     end
-    # Optionally, move the APK to a specific location
-    # sh("mv build/app/outputs/flutter-apk/app-release.apk")
   end
 
-  lane :stage do |options|
-    commit = last_git_commit
-    if options[:branch] == "main" and commit[:message].downcase.include? "#upload" or options[:branch] == "master"
-      release_type = "Release"
-  
-      commit_notes = ""
-      if(options[:branch] == "master")
-        commit_notes = "Release candidate. #{commit[:message]}"
-      else
-        commit_notes = commit[:message].sub("#upload ", "")
-      end
-  
-      # Upload build to Firebase
-      # sign_apk_lane(flavor: options[:flavor].capitalize, type: release_type)
-      publish_to_firebase(flavor: options[:flavor], branch: options[:branch], notes: commit_notes, author: commit[:author], app_id: options[:app_id], firebase_token: options[:firebase_token])
-  
+  lane :build_apk_staging do
+    # Navigate to the Flutter project directory
+    Dir.chdir("..") do
+      # Build the APK using the flutter command
+      sh("flutter build apk --flavor stag")
     end
   end
+    
   lane :increment_version do |options|
     # Fetch the latest release from Firebase App Distribution
     latest_release = firebase_app_distribution_get_latest_release(
@@ -40,40 +54,11 @@ platform :android do
     # Increment the version code
     increment_version_code({ version_code: latest_release[:buildVersion].to_i + 1 })
   
-    # Define the path to your build.gradle file
-    # gradle_file_path = "app/build.gradle"
   
-    # # Read the current version name from build.gradle
-    # current_version_name = sh("grep 'versionName' #{gradle_file_path}").split(' ').last.tr('"', '')
-  
-    # # Split the version name into major, minor, and patch
-    # version_parts = current_version_name.split('.').map(&:to_i)
-    # major, minor, patch = version_parts
-  
-    # # Increment the patch version (you can modify this logic as needed)
-    # patch += 1
-  
-    # # Generate the new version name
-    # new_version_name = "#{major}.#{minor}.#{patch}"
-  
-    # # Replace the versionName in build.gradle with the new version
-    # sh("sed -i '' 's/versionName \".*\"/versionName \"#{new_version_name}\"/' #{gradle_file_path}")
-  
-    # # Output the new version name
-    # puts "Version name updated to #{new_version_name}"
-  
-    # # Commit the changes (optional)
-    # commit_version_bump(
-    #   message: "Version bump to #{new_version_name}",
-    #   xcodeproj: nil # Only needed for iOS projects, omit for Android
-    # )
   end
-  
 
-  lane :publish_to_firebase do |options|
-    increment_version(app_id: options[:app_id])
-    build_apk
-    build_notes = "Environment: #{options[:flavor].capitalize}. \n Branch: #{options[:branch]}. \n Notes: #{options[:notes]}. \n Built by #{options[:author]}"
+  lane :deploy do |options|
+    build_notes = "Notes: \n #{options[:notes]}. \n Built by #{options[:author]}"
 
     release = firebase_app_distribution(
        app: "#{options[:app_id]}",
@@ -82,8 +67,7 @@ platform :android do
        android_artifact_path: "../build/app/outputs/flutter-apk/app-release.apk",
        firebase_cli_token: "#{options[:firebase_token]}"
     )
-end
-
+  end
 
 end
 

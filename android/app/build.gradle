@@ -43,6 +43,25 @@ android {
         main.java.srcDirs += 'src/main/kotlin'
     }
 
+    flavorDimensions "flavors"
+
+    productFlavors {
+        stag {
+            dimension "flavors"
+            applicationIdSuffix ".dev"
+            manifestPlaceholders = [appName: "(Stag) CheckInTime"]
+            resValue "string", "app_name", "(Stag) CheckInTime"
+            versionName = "1.0.0"
+        }
+
+        prod {
+            dimension "flavors"
+            manifestPlaceholders = [appName: "CheckInTime"]
+            resValue "string", "app_name", "CheckInTime"
+            versionName = "1.0.0"
+        }
+    }
+
     defaultConfig {
         applicationId "com.checkintime.app"
         minSdk = 23
