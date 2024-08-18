@@ -12,7 +12,7 @@ class LoginPage extends StatelessWidget {
     TextEditingController password = TextEditingController();
     return Scaffold(
         appBar: AppBar(
-          title: const Text("Logind"),
+          title: const Text("Login"),
         ),
         body: Column(
           mainAxisAlignment: MainAxisAlignment.center,
