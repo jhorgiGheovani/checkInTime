@@ -39,7 +39,7 @@ platform :android do
   end
 
   lane :publish_to_firebase do |options|
-    increment_version
+    increment_version(app_id: options[:app_id])
     # increment_version_code(
     #   gradle_file_path: "app/build.gradle",
     # )
